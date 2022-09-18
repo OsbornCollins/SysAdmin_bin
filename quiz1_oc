@@ -54,6 +54,7 @@ if [[ -z "$DIR" || -z "$ID" ]]; then
 	clear
 	echo "Directory name is ["$DIR"] and Identifier name is ["$ID"]."
 	echo "You need to provide two arguments for this script to work."
+	echo "<<script_name>> <root directory name> <identifier name>"
 	sleep 5
 	clear
 	exit 1
