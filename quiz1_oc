@@ -1,15 +1,8 @@
 #!/bin/bash
 
-actionStart() {
-	echo "Please provide Name of the Top Level Directory and Identifier."
-	read -p 'Directory: ' DIR
-	read -p 'Identifier: ' ID
-	clear
-	echo "Processing..........."
-	sleep 1
-	clear
 
-}
+# This functions add the go code to the *main.go* file
+# Then tells the user to test the project
 addCode(){
 	echo '//File: cmd/api/main.go
 
@@ -19,7 +12,7 @@ addCode(){
 	
 	func main() {
 	fmt.Println("Hello World!")
-}' > cmd/api/main.go
+	}' > cmd/api/main.go
 
 	echo "I have created a *main.go* file for you to test the directory structure."
 	sleep 3
@@ -29,13 +22,15 @@ addCode(){
 
 }
 
+# This functions initially takes the user to the home directory of the current user
+# Then creates the require project directories and files
 createDir() {
 	cd
 	mkdir -p  /home/"$USER"/"$DIR"
 	cd "$DIR"
 	mkdir -p bin cmd/api internals migrations remote
 	clear
-	echo "All Directories were created succesfully."
+	echo "All directories were created succesfully!"
 	sleep 3
 	go mod init "$DIR"."$ID".net
 	clear
@@ -43,26 +38,31 @@ createDir() {
 	clear
 	touch MakeFile
 	touch cmd/api/main.go
-	echo "Files Created"
+	echo "All required files created succesfully!"
 	sleep 3
 	clear
 	addCode
 }
 
-actionStart
-while [[ -z "$DIR" || -z "$ID" ]]; do
+#Start of the script
+# Variables are initialized with the arguments passed in by the user
+DIR="$1"
+ID="$2"
+
+# If check to ensure the user is entering two arguments when calling the script
+if [[ -z "$DIR" || -z "$ID" ]]; then
 	clear
 	echo "Directory name is ["$DIR"] and Identifier name is ["$ID"]."
 	echo "You need to provide two arguments for this script to work."
 	sleep 5
 	clear
-	actionStart
-done
+	exit 1
+fi
 
 echo "I am about to create a directory structure named "$DIR"." 
 
 actionCont() {
-	read -e -p "Do you want me to continue? [Yes/no]:" USERANS
+		read -e -p "Do you want me to continue? [Yes/no]:" USERANS
 }
 
 actionCont
@@ -88,6 +88,5 @@ else
 	sleep 4
 	clear
 fi
-
 
 
