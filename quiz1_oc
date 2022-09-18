@@ -32,7 +32,7 @@ createDir() {
 	clear
 	echo "All directories were created succesfully!"
 	sleep 3
-	go mod init "$DIR"."$ID".net
+	go mod init "$DIR"."$ID"
 	clear
 	go mod tidy
 	clear
