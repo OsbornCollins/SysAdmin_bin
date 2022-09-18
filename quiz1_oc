@@ -1,0 +1,93 @@
+#!/bin/bash
+
+actionStart() {
+	echo "Please provide Name of the Top Level Directory and Identifier."
+	read -p 'Directory: ' DIR
+	read -p 'Identifier: ' ID
+	clear
+	echo "Processing..........."
+	sleep 1
+	clear
+
+}
+addCode(){
+	echo '//File: cmd/api/main.go
+
+	package main
+
+	import "fmt"
+	
+	func main() {
+	fmt.Println("Hello World!")
+}' > cmd/api/main.go
+
+	echo "I have created a *main.go* file for you to test the directory structure."
+	sleep 3
+	echo "Type *go run ./cmd/api* at the root direcotry of your project to test your project."
+	sleep 3
+	echo "Thanks you. Goodbye"
+
+}
+
+createDir() {
+	cd
+	mkdir -p  /home/"$USER"/"$DIR"
+	cd "$DIR"
+	mkdir -p bin cmd/api internals migrations remote
+	clear
+	echo "All Directories were created succesfully."
+	sleep 3
+	go mod init "$DIR"."$ID".net
+	clear
+	go mod tidy
+	clear
+	touch MakeFile
+	touch cmd/api/main.go
+	echo "Files Created"
+	sleep 3
+	clear
+	addCode
+}
+
+actionStart
+while [[ -z "$DIR" || -z "$ID" ]]; do
+	clear
+	echo "Directory name is ["$DIR"] and Identifier name is ["$ID"]."
+	echo "You need to provide two arguments for this script to work."
+	sleep 5
+	clear
+	actionStart
+done
+
+echo "I am about to create a directory structure named "$DIR"." 
+
+actionCont() {
+	read -e -p "Do you want me to continue? [Yes/no]:" USERANS
+}
+
+actionCont
+while [[ "$USERANS" != "Yes" && "$USERANS" != "no" ]]; do
+	clear
+	echo "Invalid Answer"
+	sleep 1
+	clear
+	actionCont
+done
+
+if [[ "$USERANS" = "Yes" ]]; then
+	clear
+	echo "Creating "$DIR" directory structure..."
+	sleep 3
+	clear
+	createDir "$DIR" "$ID"
+
+
+else
+	clear
+	echo ""$DIR" Directory Creation was ABORTED!"
+	sleep 4
+	clear
+fi
+
+
+
