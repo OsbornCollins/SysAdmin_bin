@@ -1,0 +1,51 @@
+#!/bin/bash
+# Osborn Collins
+# Test 2
+# System Administration
+
+# All commands are relative to home directory.
+
+# Write a shell script that accepts a file name from the command line that represent a text file that contains first and last names and accepts a second command line argument that contains the last name that the user want to find.
+
+# Start of Script
+# Variables are initalized with the args passed in by the user
+FNAME="$1"
+LNAME="$2"
+
+
+# If check to ensure the user is entering two arguments when calling the script
+if [[ -z "$FNAME" || -z "$LNAME" ]]; then
+	clear
+	echo "File Name is "$FNAME" and Last Name is "$LNAME"."
+	echo "You need to provide two arguments when calling the script!"
+	echo "Proper usage is 'my-lookup names.txt collins'"
+	sleep 5
+	clear
+	exit 1
+fi
+
+# Checks to see if file entered exist in the directory
+if [[ -f "$FNAME" ]]; then
+	echo "Loading......"
+	sleep 1
+	clear
+	cd ~/
+	echo "my-lookup "$FNAME" "$LNAME" "
+	# Checks to see if patterns were found.
+	if ! grep --color -P "$LNAME" "$FNAME"; then
+		echo "No results found! Try a different last Name!"
+		echo -e "\n"
+		exit 1
+	else
+		echo -e "\n"
+		echo "Goodbye!"
+		exit 1
+	fi	
+else
+	echo "$FNAME does not Exit!"
+	echo -e "\n"
+	sleep 2
+	clear
+	exit 1
+fi
+
